@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QList>
 #include "ui_MCcheatdetection.h"
 #include "AzioniControllo.h"
 
@@ -15,15 +16,15 @@ public:
 private slots:
     //void printTest(int i);
     void resultThread(int result, int i);
-
     void printTest();
+    void BeginCheck();
 
-//signals:
+    //signals:
 
 private:
     Ui::MCcheatdetectionClass ui;
     AzioniControlloMC* azioniControllo = new AzioniControlloMC();
-    void runRenameVersions(int i);
-    
+    void runAsThread(QListWidgetItem* item);
+    QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
     
 };

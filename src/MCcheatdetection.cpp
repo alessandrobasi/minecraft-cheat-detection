@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <QThread>
+#include <QDebug>
 
 using namespace std;
 
@@ -12,13 +13,13 @@ MCcheatdetection::MCcheatdetection(QWidget *parent)
 {
     ui.setupUi(this);
 
-    QList<QPair<QString, void (MCcheatdetection::*)() > > listadicose = {
-        QPair("Rename versions\'s Dir", &MCcheatdetection::printTest), // &MCcheatdetection::runRenameVersions
-        QPair("Controllare cartella libraries", &MCcheatdetection::printTest),
-        QPair("Controllare file launcher profiles", &MCcheatdetection::printTest),
-        QPair("Cercare in %TEMP%", &MCcheatdetection::printTest), // jnativehook
-        QPair("Cercare in prefetch", &MCcheatdetection::printTest), // autoclicker, vape
-        QPair("Cercare nei file recenti", &MCcheatdetection::printTest) // shell:recent
+    QList<QPair<QString, void (AzioniControlloMC::*)() > > listadicose = {
+        QPair("Rename versions\'s Dir", &AzioniControlloMC::renameMCVersions), // &MCcheatdetection::runRenameVersions
+        //QPair("Controllare cartella libraries", &azioniControllo->renameMCVersions),
+        //QPair("Controllare file launcher profiles", &azioniControllo->renameMCVersions),
+        //QPair("Cercare in %TEMP%", &azioniControllo->renameMCVersions), // jnativehook
+        //QPair("Cercare in prefetch", &azioniControllo->renameMCVersions), // autoclicker, vape
+        //QPair("Cercare nei file recenti", &azioniControllo->renameMCVersions) // shell:recent
     };
 
     for each (QPair<QString, void (MCcheatdetection::*)()> pairing in listadicose)
@@ -30,17 +31,49 @@ MCcheatdetection::MCcheatdetection(QWidget *parent)
 
     }
     
-    connect(ui.iniziaControllo, SIGNAL(clicked()), this, SLOT(printTest()));
+    connect(ui.iniziaControllo, SIGNAL(clicked()), this, SLOT(BeginCheck()));
 
 }
 
 //void AppControlliMC::ChangeScreen(wchar_t* uiFilename, void (*f)()) {/* TODO: ??? */}
 
-void MCcheatdetection::runRenameVersions(int i) {
+void MCcheatdetection::BeginCheck() {
+    //test SLOT
+    ui.iniziaControllo->setStyleSheet("background-color:red;");
+
+    // checked contains a QList of QListWidgetItem pointers
+    QList<QListWidgetItem*> checked = MCcheatdetection::getCheckedElements(ui.passaggiEseguire);
+
+    // starts each functin in QListWidgetItem.data
+    for each (QListWidgetItem* item in checked) {
+        qDebug() << "nome: " << item->text();
+        qDebug("start Thread");
+        MCcheatdetection::runAsThread(item);
+
+    }
+
+}
+
+void MCcheatdetection::runAsThread(QListWidgetItem* item) {
     QThread* thread = new QThread();
-    connect(thread, SIGNAL(started()), azioniControllo, SLOT(renameMCVersions()));
+    connect(thread, SIGNAL(started()), azioniControllo, SLOT(item.data(Qt::UserRole)));
     connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, i)));
     thread->start();
+}
+
+QList<QListWidgetItem*> MCcheatdetection::getCheckedElements(QListWidget* ListWidget) {
+    
+    QList<QListWidgetItem*> checked;
+
+    for (int i = 0; i < ListWidget->count(); ++i) {
+
+        QListWidgetItem* item = ListWidget->item(i);
+        if (item->checkState() == 2) {
+            checked.append(item);
+        }
+    }
+
+    return checked;
 }
 
 void MCcheatdetection::resultThread(int result, int i) {
@@ -50,5 +83,5 @@ void MCcheatdetection::resultThread(int result, int i) {
 void MCcheatdetection::printTest() {
     ui.iniziaControllo->setStyleSheet("background-color:red;");
     qDebug("start Thread");
-    MCcheatdetection::runRenameVersions(1);
+    //MCcheatdetection::runAsThread();
 }
