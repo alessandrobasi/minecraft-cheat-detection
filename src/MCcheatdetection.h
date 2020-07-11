@@ -13,8 +13,11 @@ public:
     //void ChangeScreen(wchar_t* uiFilename, void (*f)());
     
 private slots:
-    void printTest(int i);
+    //void printTest(int i);
     void resultThread(int result, int i);
+
+    void printTest();
+
 //signals:
 
 private:
