@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C9FF9F66-9B89-45F5-AB20-813189E90DA8}</ProjectGuid>
+    <ProjectGuid>{7CD62870-3DC4-4C21-8632-5CAA0A618CAB}</ProjectGuid>
     <Keyword>QtVS_v303</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
@@ -43,21 +43,9 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <TargetName>Minecraft_Cheat_Detection</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <TargetName>Minecraft_Cheat_Detection</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;location</QtModules>
@@ -80,7 +68,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -98,11 +86,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="AppControlliMC.qrc" />
-    <QtUic Include="AppControlliMC.ui" />
-    <QtMoc Include="AppControlliMC.h" />
-    <ClCompile Include="AppControlliMC.cpp" />
+    <QtRcc Include="MCcheatdetection.qrc" />
+    <QtUic Include="MCcheatdetection.ui" />
+    <QtMoc Include="MCcheatdetection.h" />
     <ClCompile Include="AzioniControllo.cpp" />
+    <ClCompile Include="MCcheatdetection.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

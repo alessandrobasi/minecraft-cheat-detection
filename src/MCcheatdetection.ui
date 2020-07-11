@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AppControlliMCClass</class>
- <widget class="QMainWindow" name="AppControlliMCClass">
+ <class>MCcheatdetectionClass</class>
+ <widget class="QMainWindow" name="MCcheatdetectionClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AppControlliMC</string>
+   <string>MCcheatdetection</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListWidget" name="passaggiEseguire">
@@ -85,7 +85,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="AppControlliMC.qrc"/>
+  <include location="MCcheatdetection.qrc"/>
  </resources>
  <connections/>
 </ui>

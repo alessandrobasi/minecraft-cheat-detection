@@ -1,9 +1,6 @@
 #include "AzioniControllo.h"
 
-
-
 AzioniControlloMC::AzioniControlloMC() {
-    printf("classe creata\n");
 
     wchar_t userbuf[UNLEN + 1];
     DWORD usersize = UNLEN+1;
@@ -12,31 +9,40 @@ AzioniControlloMC::AzioniControlloMC() {
     status = GetUserName(userbuf, &usersize);
     if (!status) {
         perror("err:");
-    }
 
+    }
     Win_username = QString::fromWCharArray(userbuf);
+    Mc_path = "C:\\Users\\" + Win_username + "\\AppData\\Roaming\\.minecraft\\";
+
 }
 
 void AzioniControlloMC::renameMCVersions() {
 
-    QString oldname = "C:\\Users\\"+ Win_username +"\\AppData\\Roaming\\.minecraft\\versions";
-
-    QString newname = "C:\\Users\\" + Win_username +"\\AppData\\Roaming\\.minecraft\\versions_renamed";
+    QString oldname = Mc_path+"versions";
+    QString newname = Mc_path+"versions_renamed";
 
     int result = 0;
 
-    // rename == 0 Rinominato
-    if (MoveFileW(oldname, newname) == 0) {
+    // rename == 0 Renamed
+    if (rename_dir.rename(oldname, newname)) {
         printf("Dir versions not in use!!");
-        MoveFileW(newname, oldname);
+        rename_dir.rename(newname, oldname);
         result = -1;
     }  
     else {
         printf("Dir versions in use, OK");
         result = 1;
     }
+    oldname.clear();
+    newname.clear();
 
+    /*
+    -1 : Bad
+     0 : Error
+     1 : Ok
+    */
 
+    emit resultValue(result);
 
 
 }

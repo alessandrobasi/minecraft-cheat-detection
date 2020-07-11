@@ -5,6 +5,7 @@
 #include <winbase.h>
 #include <Lmcons.h>
 #include <string>
+#include <QDir>
 
 class AzioniControlloMC : public QObject {
 
@@ -15,8 +16,15 @@ public:
 
 private:
 	QString Win_username;
+	QString Mc_path;
+	QDir rename_dir;
+
 	
 
 public slots:
 	void renameMCVersions();
+	//AzioniControlloMC();
+
+signals:
+	void resultValue(int result);
 };
