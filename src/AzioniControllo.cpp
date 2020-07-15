@@ -42,7 +42,7 @@ void AzioniControlloMC::renameMCVersions() {
      1 : Ok
     */
 
-    emit resultValue(result);
+    //emit resultValue(result);
 
 
 }

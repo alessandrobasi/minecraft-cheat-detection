@@ -6,6 +6,7 @@
 #include <Lmcons.h>
 #include <string>
 #include <QDir>
+#include <QMetaType>
 
 class AzioniControlloMC : public QObject {
 
@@ -13,7 +14,7 @@ class AzioniControlloMC : public QObject {
 
 public:
 	AzioniControlloMC();
-
+	
 private:
 	QString Win_username;
 	QString Mc_path;
