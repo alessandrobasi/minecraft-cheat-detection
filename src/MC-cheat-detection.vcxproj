@@ -99,12 +99,12 @@
     <QtRcc Include="MCcheatdetection.qrc" />
     <QtUic Include="MCcheatdetection.ui" />
     <QtMoc Include="MCcheatdetection.h" />
-    <ClCompile Include="AzioniControllo.cpp" />
+    <ClCompile Include="DetectionAction.cpp" />
     <ClCompile Include="MCcheatdetection.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="AzioniControllo.h" />
+    <QtMoc Include="DetectionAction.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

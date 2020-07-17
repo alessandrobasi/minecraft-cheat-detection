@@ -3,8 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QList>
 #include "ui_MCcheatdetection.h"
-#include "AzioniControllo.h"
-#include <QMetaObject>
+#include "DetectionAction.h"
+//#include <QMetaObject>
 
 class MCcheatdetection : public QMainWindow
 {
@@ -24,7 +24,7 @@ private slots:
 
 private:
     Ui::MCcheatdetectionClass ui;
-    QObject* azioniControllo = new AzioniControlloMC();
+    DetectionAction* azioniControllo;
     void runAsThread(QVariant method_call);
     QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
     

@@ -1,7 +1,5 @@
 #include "MCcheatdetection.h"
-#include "AzioniControllo.h"
 #include <QtWidgets/QApplication>
-#include <QMetaType>
 
 int main(int argc, char *argv[])
 {

@@ -5,34 +5,27 @@
 #include <iostream>
 #include <QThread>
 #include <QDebug>
-#include <QMetaObject>
 
 using namespace std;
 
 MCcheatdetection::MCcheatdetection(QWidget *parent)
     : QMainWindow(parent)
 {
+    azioniControllo = new DetectionAction();
     ui.setupUi(this);
-    /*
-    QList<QPair<QString, int > > itemList = {
-        QPair("Rename versions\'s Dir", 1), // &MCcheatdetection::runRenameVersions
-        //QPair("Controllare cartella libraries", &azioniControllo->renameMCVersions),
-        //QPair("Controllare file launcher profiles", &azioniControllo->renameMCVersions),
-        //QPair("Cercare in %TEMP%", &azioniControllo->renameMCVersions), // jnativehook
-        //QPair("Cercare in prefetch", &azioniControllo->renameMCVersions), // autoclicker, vape
-        //QPair("Cercare nei file recenti", &azioniControllo->renameMCVersions) // shell:recent
-    };*/
 
-    /*QList<QPair<QString, void (AzioniControlloMC::*)() > > itemList = {
-        QPair("Rename versions\'s Dir", &AzioniControlloMC::renameMCVersions)
-    };
-    
-    QList<QPair<QString, QObject* > > itemList = {
-        QPair("Rename versions\'s Dir", [=]() {azioniControllo->renameMCVersions(); })
-    };
+    /*
+        QPair("Rename versions\'s Dir", [=]() {azioniControllo->renameMCVersions(); }),
+        QPair("Rename versions\'s Dir", &DetectionAction::renameMCVersions)
+        QPair("Rename versions\'s Dir", QThread::create([this] { azioniControllo->renameMCVersions(); })),
     */
     QList<QPair<QString, int > > itemList = {
-        QPair("Rename versions\'s Dir", 0)
+        QPair("Rename versions\'s Dir", 0),
+        QPair("Check libraries Dir", 1),
+        QPair("Controllare file launcher profiles", 2),
+        QPair("Cercare in %TEMP%", 3), // jnativehook
+        QPair("Cercare in prefetch", 4), // autoclicker, vape
+        QPair("Cercare nei file recenti", 5) // shell:recent
     };
 
     for each (QPair<QString, int > pairing in itemList)
@@ -62,7 +55,7 @@ void MCcheatdetection::BeginCheck() {
 
     // starts each "functin" in QListWidgetItem.data
     for each (QListWidgetItem* item in checked) {
-        qDebug() << "Run: " << item->text();
+        qDebug() << "Run: " << item->data(Qt::UserRole).toInt() << "- " << item->text();
         MCcheatdetection::runAsThread(item->data(Qt::UserRole));
 
     }
@@ -71,21 +64,27 @@ void MCcheatdetection::BeginCheck() {
 
 // Start a thread
 void MCcheatdetection::runAsThread(QVariant method_call) {
-    qDebug() << method_call.type() << " - " << method_call.toInt();
+    qDebug() << method_call.type();
 
-    QThread* thread = new QThread();
+    QThread* thread = new QThread(this);
 
     //QMetaObject::invokeMethod(azioniControllo, method_call.toString(), Qt::QueuedConnection);  ,Q_ARG(int, 1), Q_ARG(int, 1), ...
     switch (method_call.toInt())
     {
     case 0:
+        thread->setObjectName("renameMCVersions");
         connect(thread, SIGNAL(started()), azioniControllo, SLOT(renameMCVersions()));
+        //QThread* thread = QThread::create(azioniControllo.renameMCVersions));
+        break;
+    case 1:
+        thread->setObjectName("librariesDir");
+        connect(thread, SIGNAL(started()), azioniControllo, SLOT(librariesDir()));
         break;
     default:
         break;
     }
-    //connect(thread, SIGNAL(started()), azioniControllo, SLOT(renameMCVersions()));
-    //connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, i)));
+
+    //connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, method_call.toInt())));
     qDebug("start Thread");
     thread->start();
 }

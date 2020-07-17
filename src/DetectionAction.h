@@ -6,25 +6,25 @@
 #include <Lmcons.h>
 #include <string>
 #include <QDir>
-#include <QMetaType>
+#include <QDebug>
 
-class AzioniControlloMC : public QObject {
+class DetectionAction : public QObject {
 
 	Q_OBJECT
 
 public:
-	AzioniControlloMC();
+	DetectionAction();
 	
 private:
 	QString Win_username;
 	QString Mc_path;
-	QDir rename_dir;
+	
 
 	
 
 public slots:
 	void renameMCVersions();
-	//AzioniControlloMC();
+	void librariesDir();
 
 signals:
 	void resultValue(int result);

@@ -7,7 +7,7 @@
     <ClCompile Include="MCcheatdetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AzioniControllo.cpp">
+    <ClCompile Include="DetectionAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,7 +33,7 @@
     <QtMoc Include="MCcheatdetection.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="AzioniControllo.h">
+    <QtMoc Include="DetectionAction.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
