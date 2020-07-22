@@ -1,0 +1,173 @@
+Lezione per fare controlli su minecraft
+
+1) Cartelle di windows
+----------------
+verificare la versione in uso su minecraft con F3
+optifine b6/b2 versioni sospette (possibile ghost client)
+1.8-Optifine_HD_U_B2
+1.8-Optifine_HD_U_H2
+1.7.10-Optifine_HD_U_A4
+1.8-Optifine_HD_U_H6
+1.8-OptiFine_HD_U_D5
+----------------
+possiamo vedere la cronologia dei comandi
+----------------
+premere i comandi r-shift (...) per verdere se si apre qualcosa
+----------------
+    nel .minecraft
+    andare nelle version, rinominare la cartella che tipicamente sta usando
+    se va a buon fine significa che non la sta usando
+----------------
+aprire con winrar il file jar
+net\minecraft\client\main\
+
+4 main per 1.15 è legit
+4 main per 1.8 è irregolare (vanilla)
+----------------
+    libraries\io\
+    se c'è github ha usato la serenety
+    (molti client si nascondono li dentro)
+----------------
+    aprire file launcher profiles
+    gli utenti loggati dal launcher sp/premium
+    verificare con checkban se ci sono più utenti
+----------------
+recilebin
+
+C:\$Recycle.bin
+vedere gli elemti nascosti,
+opzioni -> visualizzazione -> togliere i file protetti da sistema
+è possibile vedere l'ultima modifica
+ma con shift-canc il file non passano da cestino
+----------------
+    %TEMP% 
+    cercare "jnativehook" se ci sono dll o file con quel nome, la persona ha avviato un clicker jar
+----------------
+    prefetch
+    le tracce di un .exe avviato
+    autoclicker
+    vape
+----------------
+su everything
+*.jar - cerca tutti i file java
+*.jar C:\.... - cerca il file nella directory data + sottocartelle
+clicker
+wrust
+huzuni
+*.py - file python
+*.txt  - possono esserci clicker
+----------------
+    shell:recent
+    mostra le cartelle/file aperti in tempi recenti (sono tutti regolamenti)
+----------------
+regedit
+Computer\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU
+ci sono le estenzioni
+* tutte le estenzioni
+exe - si crea un dump ed è possibile vedere le ultime aperture
+esporta file di testo 
+
+ci possono essere anche altre estensioni
+
+
+"store" ci sono gli exe avviati ma può dare falsi positivi
+
+
+(process hacker è possibile injectare file su altri programmi)
+
+################################################################################################################
+
+Lezione 2
+
+last activity view 
+serve a vedere gli ultimi file (exe) avviati (cartella prefech di windows)
+
+se si cancella il prefech, il tool non mostra nulla
+
+
+run eventview (visualizzatore di eventi)
+
+registri di windows -> sicurezza
+
+aprire "trova" e cercare 4016, serve per controllare se l'utente ha cambiato l'orario del process
+dall'evento 4016 è possibile vedere la vecchia e nuova data
+
+
+gli eventi possono essere cancellati, cercare quindi 1102, se compare almeno un evento
+si può bannare
+
+
+per cambiare l'orario da cmd 
+avviare come amministratore -> "time  set" -> xx:xx per cambiare l'orario
+
+
+su process hacker
+avviare come amministratore
+
+cercare dwn e cercare le stringhe, togliere la spunta su hide free region
+
+cercare stringhe di lunghezza 4
+
+quando fa la ricerca muovere continuamente la finestra di ricerca
+
+l'utente può premere esc per annullare la ricerca e quindi "falsificare" i risultati
+
+eventualmente riprovare la ricerca
+tra i risultati cercare "time" se compare qualcosa allora si può bannare
+
+
+tool winprefech 
+per vedere i file del prefech, trovare i file sospetti
+cliccare sui processi sospetti e controllare se c'è il falg su missing process
+
+nel caso mettere nel run il percorso del processo
+
+oppure cercare su everything
+
+
+
+tool avenger
+viene considerato come virus !!
+
+l'utente può decidere se scaricare o meno il tool
+nel caso l'utente decide non vuole il tool non si banna!
+
+sul pc dell'utente per avviare l'avenger, serve il codice per avviare
+(fornito dal sito)
+
+
+andare alla voce scan e aprire la sezione
+li saranno presenti eventuali cheat
+
+su suspicius file saranno elencati i file strani
+
+
+informazioni Explorer
+
+confrontare crss e explorer.exe
+verificare il tempo di avvio/riavvio
+
+un cheat usa un memory leak per impossibilitare il controllo
+
+
+
+minecraft usa il processo javaw.exe
+controllare il tempo di avvio/riavvio di javaw.exe explorer e crss.exe
+
+
+nel processo javaw.exe si possono cercare le famose stringhe
+(togliendo la spunta su hide free region)
+lunghezza minima 4
+tutti e 3 i check
+
+usando il tasto filter mettiamo case sensitive
+possiamo mettere i nomi tipo Wrust/reach ecc
+
+bisogna stare attenti perchè trova anche la chat
+
+
+tool luyten per aprire jar
+controllare all'interno dei file per vedere comandi anomali
+
+
+
