@@ -1,5 +1,4 @@
 ﻿#include "MCcheatdetection.h"
-#include <list>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -8,17 +7,12 @@
 
 using namespace std;
 
-MCcheatdetection::MCcheatdetection(QWidget *parent)
-    : QMainWindow(parent)
+MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent)
 {
     azioniControllo = new DetectionAction();
     ui.setupUi(this);
-
-    /*
-        QPair("Rename versions\'s Dir", [=]() {azioniControllo->renameMCVersions(); }),
-        QPair("Rename versions\'s Dir", &DetectionAction::renameMCVersions)
-        QPair("Rename versions\'s Dir", QThread::create([this] { azioniControllo->renameMCVersions(); })),
-    */
+	
+	// list of possible checks
     QList<QPair<QString, int > > itemList = {
         QPair("Rename versions\'s Dir", 0),
         QPair("Check libraries Dir", 1),
@@ -26,8 +20,8 @@ MCcheatdetection::MCcheatdetection(QWidget *parent)
         QPair("Cercare in %TEMP%", 3), // jnativehook
         QPair("Cercare in prefetch", 4), // autoclicker, vape
         QPair("Cercare nei file recenti", 5) // shell:recent
-    };
 
+    // populate ui.passaggiEseguire
     for each (QPair<QString, int > pairing in itemList)
     {
         QListWidgetItem* item = new QListWidgetItem(pairing.first, ui.passaggiEseguire);
@@ -39,10 +33,23 @@ MCcheatdetection::MCcheatdetection(QWidget *parent)
 
     }
     
+
+    azioniControllo->moveToThread(&ActionThread);
+    connect(&ActionThread, &QThread::finished, azioniControllo, &QObject::deleteLater);
+
+    // connect button to start cheats detection
     connect(ui.iniziaControllo, SIGNAL(clicked()), this, SLOT(BeginCheck()));
 
 }
 
+void MCcheatdetection::startThreads() {
+    qDebug() << "ok5";
+    qDebug("start Thread");
+    //ActionThread.start();
+}
+
+
+// function to change main widget to an other
 //void AppControlliMC::ChangeScreen(wchar_t* uiFilename, void (*f)()) {/* TODO: ??? */}
 
 // SLOT start button
@@ -59,19 +66,23 @@ void MCcheatdetection::BeginCheck() {
         MCcheatdetection::runAsThread(item->data(Qt::UserRole));
 
     }
-
+    qDebug() << "ok4";
+    MCcheatdetection::startThreads();
 }
 
 // Start a thread
 void MCcheatdetection::runAsThread(QVariant method_call) {
     qDebug() << method_call.type();
 
-    QThread* thread = new QThread(this);
-
+    
+    //connect(azioniControllo, &AzioniControlloMC::resultValue, this, &MCcheatdetection::resultThread);
+    //ActionThread.start();
+    qDebug() << "ok1";
     //QMetaObject::invokeMethod(azioniControllo, method_call.toString(), Qt::QueuedConnection);  ,Q_ARG(int, 1), Q_ARG(int, 1), ...
     switch (method_call.toInt())
     {
     case 0:
+		//connect(this, &MCcheatdetection::startThreads, azioniControllo, &AzioniControlloMC::renameMCVersions);
         thread->setObjectName("renameMCVersions");
         connect(thread, SIGNAL(started()), azioniControllo, SLOT(renameMCVersions()));
         //QThread* thread = QThread::create(azioniControllo.renameMCVersions));
@@ -87,6 +98,24 @@ void MCcheatdetection::runAsThread(QVariant method_call) {
     //connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, method_call.toInt())));
     qDebug("start Thread");
     thread->start();
+
+    /*
+	qDebug() << "ok2";
+    connect(azioniControllo, &AzioniControlloMC::resultValue, 
+        [=](int a) { MCcheatdetection::resultThread(a, method_call.toInt()); }
+        );
+	*/
+
+    // MCcheatdetection::resultThread(int, method_call.toInt())
+ 
+    //connect(thread, SIGNAL(started()), azioniControllo, SLOT(renameMCVersions()));
+
+    //connect(azioniControllo, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, i)));
+    qDebug() << "ok3";
+
+    //qDebug("start Thread");
+    //ActionThread.start();
+    //thread->start();
 }
 
 // return QList of checked QListWidgetItems
@@ -109,8 +138,3 @@ void MCcheatdetection::resultThread(int result, int i) {
     qDebug("funzione ritorna :",result , " Con i=" , i);
 }
 
-void MCcheatdetection::printTest() {
-    ui.iniziaControllo->setStyleSheet("background-color:red;");
-    qDebug("start Thread");
-    //MCcheatdetection::runAsThread();
-}
