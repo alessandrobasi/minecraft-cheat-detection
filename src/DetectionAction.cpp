@@ -17,6 +17,12 @@ DetectionAction::DetectionAction() {
 
 }
 
+/*
+   -1 : Bad
+    0 : Error
+    1 : Ok
+*/
+
 void DetectionAction::renameMCVersions() {
 
     QString oldname = Mc_path+"versions";
@@ -27,31 +33,25 @@ void DetectionAction::renameMCVersions() {
 
     // rename == 0 Renamed
     if (Dir.rename(oldname, newname)) {
-        printf("Dir versions not in use!!");
+        qDebug() << "Dir versions not in use!!";
         Dir.rename(newname, oldname);
         result = -1;
     }  
     else {
-        printf("Dir versions in use, OK");
+        qDebug() << "Dir versions in use, OK";
         result = 1;
     }
     oldname.clear();
     newname.clear();
 
-    /*
-    -1 : Bad
-     0 : Error
-     1 : Ok
-    */
+    
 
    emit resultValue(result);
-
-    return;
 }
 
 void DetectionAction::librariesDir() {
     QString librariesPath = Mc_path + "libraires";
-
+    int result = 0;
     QList<QString> elements = {
         "/io/github"
     };
@@ -61,9 +61,18 @@ void DetectionAction::librariesDir() {
         QDir check(checkpath);
         if (check.exists()) {
             qDebug() << "Found: " << checkpath;
+            if (result >= 0) {
+                result = -1;
+            }
+        }
+        else {
+            qDebug() << "NOT found: " << checkpath;
+            if (result == 0) {
+                result = 1;
+            }
         }
 
 
     }
-
+    emit resultValue(result);
 }

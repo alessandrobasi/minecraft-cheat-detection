@@ -18,14 +18,12 @@ private slots:
     //void printTest(int i);
     void resultThread(int result, int i);
     void BeginCheck();
-    void startThreads();
 
-    //signals:
 
 private:
     Ui::MCcheatdetectionClass ui;
     DetectionAction* azioniControllo = new DetectionAction();
-    //AzioniControlloMC* azioniControllo = new AzioniControlloMC();
+
     void runAsThread(QVariant method_call);
     QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
 
