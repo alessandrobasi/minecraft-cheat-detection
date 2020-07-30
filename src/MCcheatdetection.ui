@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MCcheatdetection</string>
+   <string>Minecraft Open Cheat Detection</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QListWidget" name="passaggiEseguire">
+   <widget class="QListWidget" name="actionsToDo">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -64,10 +64,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Passaggi da eseguire</string>
+     <string>Actions to do</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="iniziaControllo">
+   <widget class="QPushButton" name="BeginControll">
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -78,6 +78,29 @@
     </property>
     <property name="text">
      <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="usernameUsed">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>40</y>
+      <width>261</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>20</y>
+      <width>261</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Username used</string>
     </property>
    </widget>
   </widget>

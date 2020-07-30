@@ -13,7 +13,9 @@ using namespace std;
 MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
     // build UI
     ui.setupUi(this);
-    
+    QLabel* SBRichText = new QLabel("Improve this program on <a target='_blank' href='https://github.com/alessandrobasi/minecraft-cheat-detection'>GitHub</a>");
+    ui.statusBar->addWidget(SBRichText);   // showMessage();
+
     // list of possible checks
     QList<QPair<QString, int > > itemList = {
         QPair("Rename versions\'s Dir", 0),
@@ -24,10 +26,10 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
         QPair("Search in Recent Files", 5) // shell:recent
     };
 
-    // populate ui.passaggiEseguire
+    // populate ui.actionsToDo
     for each (QPair<QString, int > pairing in itemList) {
 
-        QListWidgetItem* item = new QListWidgetItem(pairing.first, ui.passaggiEseguire);
+        QListWidgetItem* item = new QListWidgetItem(pairing.first, ui.actionsToDo);
         
         item->setData(Qt::UserRole, pairing.second);
         item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
@@ -40,7 +42,7 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
     //connect(&ActionThread, &QThread::finished, azioniControllo, &QObject::deleteLater);
 
     // connect button to start cheats detection
-    connect(ui.iniziaControllo, SIGNAL(clicked()), this, SLOT(BeginCheck()));
+    connect(ui.BeginControll, SIGNAL(clicked()), this, SLOT(BeginCheck()));
 
 
 }
@@ -55,12 +57,12 @@ void MCcheatdetection::closeEvent(QCloseEvent* event) {
 
 // SLOT start button
 void MCcheatdetection::BeginCheck() {
-    ui.iniziaControllo->setDisabled(true);
+    ui.BeginControll->setDisabled(true);
     //test SLOT
-    ui.iniziaControllo->setStyleSheet("background-color:red;");
+    ui.BeginControll->setStyleSheet("background-color:red;");
 
     // var checked contains a QList of QListWidgetItem that are checked
-    QList<QListWidgetItem*> checked = MCcheatdetection::getCheckedElements(ui.passaggiEseguire);
+    QList<QListWidgetItem*> checked = MCcheatdetection::getCheckedElements(ui.actionsToDo);
 
     // starts each "functin" in QListWidgetItem.data
     for each (QListWidgetItem* item in checked) {
@@ -110,13 +112,6 @@ void MCcheatdetection::runAsThread(QVariant method_call) {
             break;
     }
 
-    //connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, method_call.toInt())));
-    
-    
-    
-    //connect(azioniControllo, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, i)));
-    qDebug() << "ok3";
-
 }
 
 // return QList of checked QListWidgetItems
@@ -140,16 +135,16 @@ void MCcheatdetection::resultThread(int result, int i) {
     
     switch (result) {
     case -1:
-        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("red")));
+        ui.actionsToDo->item(i)->setBackground(QBrush(QColor("red")));
         break;
     case 1:
-        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("green")));
+        ui.actionsToDo->item(i)->setBackground(QBrush(QColor("green")));
         break;
     case 0:
-        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("gray")));
+        ui.actionsToDo->item(i)->setBackground(QBrush(QColor("gray")));
         break;
     default:
-        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("blue")));
+        ui.actionsToDo->item(i)->setBackground(QBrush(QColor("blue")));
         break;
     }
 }
