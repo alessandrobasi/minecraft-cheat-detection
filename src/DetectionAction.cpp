@@ -1,3 +1,4 @@
+#pragma once
 #include "DetectionAction.h"
 
 DetectionAction::DetectionAction() {
@@ -46,7 +47,7 @@ void DetectionAction::renameMCVersions() {
 
     
 
-   emit resultValue(result);
+   emit resultValue(result, 0);
 }
 
 void DetectionAction::librariesDir() {
@@ -74,5 +75,19 @@ void DetectionAction::librariesDir() {
 
 
     }
-    emit resultValue(result);
+    emit resultValue(result, 1);
+}
+
+void DetectionAction::launcherProfiles() {
+    QString usernamesPath = Mc_path + "usercache.json";
+    QString launcherProfilesPath = Mc_path + "launcher_profiles.json";
+    int result = 0;
+
+    emit resultValue(result, 2);
+}
+
+void DetectionAction::SearchInTEMP() {
+    int result = 0;
+
+    emit resultValue(result, 3);
 }

@@ -13,8 +13,8 @@ using namespace std;
 MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
     // build UI
     ui.setupUi(this);
-	
-	// list of possible checks
+    
+    // list of possible checks
     QList<QPair<QString, int > > itemList = {
         QPair("Rename versions\'s Dir", 0),
         QPair("Check libraries Dir", 1),
@@ -42,9 +42,13 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
     // connect button to start cheats detection
     connect(ui.iniziaControllo, SIGNAL(clicked()), this, SLOT(BeginCheck()));
 
+
 }
 
-
+void MCcheatdetection::closeEvent(QCloseEvent* event) {
+    ActionThread.quit();
+    ActionThread.wait();
+}
 
 // function to change main widget to an other
 //void AppControlliMC::ChangeScreen(wchar_t* uiFilename, void (*f)()) {/* TODO: ??? */}
@@ -65,6 +69,11 @@ void MCcheatdetection::BeginCheck() {
         MCcheatdetection::runAsThread(item->data(Qt::UserRole));
 
     }
+
+    connect(azioniControllo, &DetectionAction::resultValue,
+        this, &MCcheatdetection::resultThread
+    );
+
     // start all
     qDebug("start Thread");
     ActionThread.setObjectName("ActionThread");
@@ -86,21 +95,25 @@ void MCcheatdetection::runAsThread(QVariant method_call) {
     qDebug() << "Connection on start thread set id: "<< method_call.toInt();
     switch (method_call.toInt()) {
         case 0:
-		    connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::renameMCVersions);
+            connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::renameMCVersions);
             break;
         case 1:
             connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::librariesDir);
+            break;
+        case 2:
+            connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::launcherProfiles);
+            break;
+        case 3:
+            connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::SearchInTEMP);
             break;
         default:
             break;
     }
 
     //connect(thread, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, method_call.toInt())));
-	
-    connect(azioniControllo, &DetectionAction::resultValue,
-        [=](int a) { MCcheatdetection::resultThread(a, method_call.toInt()); }
-        );
-	
+    
+    
+    
     //connect(azioniControllo, SIGNAL(resultValue(int)), this, SLOT(resultThread(int, i)));
     qDebug() << "ok3";
 
@@ -124,5 +137,20 @@ QList<QListWidgetItem*> MCcheatdetection::getCheckedElements(QListWidget* ListWi
 
 void MCcheatdetection::resultThread(int result, int i) {
     qDebug() << "funzione ritorna :" << result << " Con i=" << i;
+    
+    switch (result) {
+    case -1:
+        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("red")));
+        break;
+    case 1:
+        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("green")));
+        break;
+    case 0:
+        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("gray")));
+        break;
+    default:
+        ui.passaggiEseguire->item(i)->setBackground(QBrush(QColor("blue")));
+        break;
+    }
 }
 

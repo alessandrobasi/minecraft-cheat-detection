@@ -19,13 +19,12 @@ private:
 	QString Win_username;
 	QString Mc_path;
 	
-
-	
-
 public slots:
 	void renameMCVersions();
 	void librariesDir();
+	void launcherProfiles();
+	void SearchInTEMP();
 
 signals:
-	void resultValue(int result);
+	void resultValue(int result, int pos);
 };

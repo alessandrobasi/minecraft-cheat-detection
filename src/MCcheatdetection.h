@@ -12,6 +12,7 @@ class MCcheatdetection : public QMainWindow
     QThread ActionThread;
 public:
     MCcheatdetection(QWidget *parent = Q_NULLPTR);
+    void closeEvent(QCloseEvent* event);
     //void ChangeScreen(wchar_t* uiFilename, void (*f)());
     
 private slots:
