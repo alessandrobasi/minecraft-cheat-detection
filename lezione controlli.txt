@@ -45,6 +45,7 @@ ma con shift-canc il file non passano da cestino
 ----------------
     prefetch
     le tracce di un .exe avviato
+	inserire "filename:*:" nella barra di ricerca per controllare se si è avviato qualcosa come Data Stream
     autoclicker
     vape
 ----------------
