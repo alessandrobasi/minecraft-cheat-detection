@@ -1,7 +1,7 @@
 #pragma once
 #include "DetectionAction.h"
 
-DetectionAction::DetectionAction() {
+DetectionAction::DetectionAction(int pos) {
 
     wchar_t userbuf[UNLEN + 1];
     DWORD usersize = UNLEN+1;
@@ -15,7 +15,8 @@ DetectionAction::DetectionAction() {
     Win_username = QString::fromWCharArray(userbuf);
     //Mc_path = "C:\\Users\\" + Win_username + "\\AppData\\Roaming\\.minecraft\\";
     Mc_path = "C:/Users/" + Win_username + "/AppData/Roaming/.minecraft/";
-
+    
+    DetectionAction::pos = pos;
 }
 
 /*
@@ -23,6 +24,26 @@ DetectionAction::DetectionAction() {
     0 : Error
     1 : Ok
 */
+
+void DetectionAction::run() {
+    switch (DetectionAction::pos) {
+    case 0:
+        DetectionAction::renameMCVersions();
+        break;
+    case 1:
+        DetectionAction::librariesDir();
+        break;
+    case 2:
+        DetectionAction::launcherProfiles();
+        break;
+    case 3:
+        DetectionAction::searchInTEMP();
+        break;
+    default:
+        qDebug() << "ID number " << DetectionAction::pos << "not mapped";
+        break;
+    }
+}
 
 void DetectionAction::renameMCVersions() {
 
@@ -86,7 +107,7 @@ void DetectionAction::launcherProfiles() {
     emit resultValue(result, 2);
 }
 
-void DetectionAction::SearchInTEMP() {
+void DetectionAction::searchInTEMP() {
     int result = 0;
 
     emit resultValue(result, 3);

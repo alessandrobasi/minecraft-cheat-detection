@@ -6,25 +6,23 @@
 #include "DetectionAction.h"
 #include <QThread>
 
-class MCcheatdetection : public QMainWindow
-{
+class MCcheatdetection : public QMainWindow {
+
     Q_OBJECT
-    QThread ActionThread;
+
 public:
     MCcheatdetection(QWidget *parent = Q_NULLPTR);
-    void closeEvent(QCloseEvent* event);
     //void ChangeScreen(wchar_t* uiFilename, void (*f)());
     
 private slots:
-    //void printTest(int i);
     void resultThread(int result, int i);
     void BeginCheck();
 
 
 private:
     Ui::MCcheatdetectionClass ui;
-    DetectionAction* azioniControllo = new DetectionAction();
 
+    QList<DetectionAction*> ThreadList;
     void runAsThread(QVariant method_call);
     QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
 
