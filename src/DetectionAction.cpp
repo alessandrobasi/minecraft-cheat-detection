@@ -1,22 +1,26 @@
 #pragma once
 #include "DetectionAction.h"
 
-DetectionAction::DetectionAction(int pos) {
+DetectionAction::DetectionAction(int uniqueID, int pos) {
 
+    DetectionAction::pos = pos;
+    DetectionAction::method_call = uniqueID;
+
+    DetectionAction::Win_username = DetectionAction::getUsername();
+    DetectionAction::Mc_path = "C:/Users/" + DetectionAction::Win_username + "/AppData/Roaming/.minecraft/";
+    
+}
+
+QString DetectionAction::getUsername() {
     wchar_t userbuf[UNLEN + 1];
-    DWORD usersize = UNLEN+1;
+    DWORD usersize = UNLEN + 1;
     BOOL status;
-
     status = GetUserName(userbuf, &usersize);
     if (!status) {
         perror("err:");
-
+        return NULL;
     }
-    Win_username = QString::fromWCharArray(userbuf);
-    //Mc_path = "C:\\Users\\" + Win_username + "\\AppData\\Roaming\\.minecraft\\";
-    Mc_path = "C:/Users/" + Win_username + "/AppData/Roaming/.minecraft/";
-    
-    DetectionAction::pos = pos;
+    return QString::fromWCharArray(userbuf);
 }
 
 /*
@@ -26,7 +30,7 @@ DetectionAction::DetectionAction(int pos) {
 */
 
 void DetectionAction::run() {
-    switch (DetectionAction::pos) {
+    switch (method_call) {
     case 0:
         DetectionAction::renameMCVersions();
         break;
@@ -68,7 +72,7 @@ void DetectionAction::renameMCVersions() {
 
     
 
-   emit resultValue(result, 0);
+   emit resultValue(result, pos);
 }
 
 void DetectionAction::librariesDir() {
@@ -96,7 +100,7 @@ void DetectionAction::librariesDir() {
 
 
     }
-    emit resultValue(result, 1);
+    emit resultValue(result, pos);
 }
 
 void DetectionAction::launcherProfiles() {
@@ -104,11 +108,11 @@ void DetectionAction::launcherProfiles() {
     QString launcherProfilesPath = Mc_path + "launcher_profiles.json";
     int result = 0;
 
-    emit resultValue(result, 2);
+    emit resultValue(result, pos);
 }
 
 void DetectionAction::searchInTEMP() {
     int result = 0;
 
-    emit resultValue(result, 3);
+    emit resultValue(result, pos);
 }

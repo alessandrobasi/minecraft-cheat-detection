@@ -1,11 +1,10 @@
 #pragma once
-#include <QObject>
+
 #include <QThread>
 #include <stdio.h>
 #include <Windows.h>
 #include <winbase.h>
 #include <Lmcons.h>
-#include <string>
 #include <QDir>
 #include <QDebug>
 
@@ -14,13 +13,15 @@ class DetectionAction : public QThread {
 	Q_OBJECT
 
 public:
-	DetectionAction(int pos);
+	DetectionAction(int uniqueID, int pos);
+	static QString getUsername();
 	void run();
 	
 private:
 	QString Win_username;
 	QString Mc_path;
 	int pos;
+	int method_call;
 	
 public slots:
 	void renameMCVersions();

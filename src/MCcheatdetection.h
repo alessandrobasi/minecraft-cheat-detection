@@ -13,19 +13,17 @@ class MCcheatdetection : public QMainWindow {
 public:
     MCcheatdetection(QWidget *parent = Q_NULLPTR);
     //void ChangeScreen(wchar_t* uiFilename, void (*f)());
-    
-private slots:
-    void resultThread(int result, int i);
-    void BeginCheck();
-
 
 private:
     Ui::MCcheatdetectionClass ui;
+    QMap<QString, int> mapItems;
 
     QList<DetectionAction*> ThreadList;
-    void runAsThread(QVariant method_call);
+    void runAsThread(QString nome, QVariant method_call);
     QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
 
-    
+private slots:
+    void resultThread(int result, int i);
+    void BeginCheck();
     
 };

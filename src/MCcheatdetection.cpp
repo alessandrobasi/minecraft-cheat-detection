@@ -18,17 +18,28 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
     ui.statusBar->addWidget(SBRichText);   // showMessage();
 
     // list of possible checks
+    // 1. the order of itmes
+    // 2. unique int
+    MCcheatdetection::mapItems = {
+        { "Rename versions\'s Dir", 0 },
+        { "Check libraries Dir", 1 },
+        { "Check launcher profiles", 2 },
+        { "Search in %TEMP%", 3},
+        { "Search in Prefetch", 4},
+        { "Search in Recent Files", 5}
+    };
+    /*
     QList<QString> itemList = {
-        "Rename versions\'s Dir",
-        "Check libraries Dir",
-        "Check launcher profiles",
+        "Rename versions\'s Dir", // if minecraft is using .minecraft dir
+        "Check libraries Dir", // 
+        "Check launcher profiles", // load username
         "Search in %TEMP%", // jnativehook
         "Search in Prefetch", // autoclicker, vape
         "Search in Recent Files" // shell:recent
     };
-
+    */
     // populate ui.actionsToDo
-    for each (QString pairing in itemList) {
+    for each (QString pairing in mapItems.keys()) {
 
         QListWidgetItem* item = new QListWidgetItem(pairing, ui.actionsToDo);
         
@@ -37,9 +48,6 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
         item->setCheckState(Qt::Checked); // AND initialize check state
 
     }
-    
-    // set class to thread
-    //azioniControllo->moveToThread(&ActionThread);
     
     // connect button to start cheats detection
     connect(ui.BeginControll, SIGNAL(clicked()), this, SLOT(BeginCheck()));
@@ -58,24 +66,21 @@ void MCcheatdetection::BeginCheck() {
     //test SLOT
     ui.BeginControll->setStyleSheet("background-color:red;");
 
-    // var checked contains a QList of QListWidgetItem that are checked
+    // checked contains a QList of QListWidgetItem that are checked
     QList<QListWidgetItem*> checked = MCcheatdetection::getCheckedElements(ui.actionsToDo);
 
     // starts each "functin" in QListWidgetItem.data
     for each (QListWidgetItem* item in checked) {
         // qDebug() << "Run: " << item->text(); // item->data(Qt::UserRole).toInt()
         // setup connection
-        MCcheatdetection::runAsThread(item->data(Qt::UserRole));
-
+        MCcheatdetection::runAsThread(item->text(), item->data(Qt::UserRole));
+        
     }
     
     
     
     // start all
     qDebug("start Thread");
-    //ActionThread.setObjectName("ActionThread");
-    //ActionThread.start();
-
     for each (DetectionAction* thread in MCcheatdetection::ThreadList) {
         connect(thread, &DetectionAction::resultValue,
             this, &MCcheatdetection::resultThread
@@ -86,24 +91,20 @@ void MCcheatdetection::BeginCheck() {
     
 
     /*
-    TODO: whait for thread
+    TODO: wait for thread
     */
 
 }
 
 // Start a thread
-void MCcheatdetection::runAsThread(QVariant method_call) {
-    //qDebug() << method_call.type();
+void MCcheatdetection::runAsThread(QString nome, QVariant itemPos) {
+    //qDebug() << itemPos.type();
+    qDebug() << "id:" << itemPos.toInt() << "added to ThreadList";
 
-    //QMetaObject::invokeMethod(azioniControllo, method_call.toString(), Qt::QueuedConnection);  ,Q_ARG(int, 1), Q_ARG(int, 1), ...
-    
-    qDebug() << "Connection on start thread set id: "<< method_call.toInt();
-
-    
-    MCcheatdetection::ThreadList.append(new DetectionAction(method_call.toInt()));
+    MCcheatdetection::ThreadList.append(new DetectionAction(MCcheatdetection::mapItems[nome], itemPos.toInt()));
 
     /*
-    switch (method_call.toInt()) {
+    switch (itemPos.toInt()) {
         case 0:
             connect(&ActionThread, &QThread::started, azioniControllo, &DetectionAction::renameMCVersions);
             break;

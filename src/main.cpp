@@ -1,8 +1,7 @@
 #include "MCcheatdetection.h"
 #include <QtWidgets/QApplication>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
     QApplication Application(argc, argv);
     MCcheatdetection window;
