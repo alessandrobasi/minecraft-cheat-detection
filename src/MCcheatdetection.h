@@ -17,13 +17,16 @@ public:
 private:
     Ui::MCcheatdetectionClass ui;
     QMap<QString, int> mapItems;
-
     QList<DetectionAction*> ThreadList;
+
     void runAsThread(QString nome, QVariant method_call);
     QList<QListWidgetItem*> getCheckedElements(QListWidget* ListWidget);
 
 private slots:
     void resultThread(int result, int i);
     void BeginCheck();
+
+signals:
+    void addUsername(QString username);
     
 };

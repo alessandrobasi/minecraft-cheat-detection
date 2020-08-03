@@ -22,6 +22,11 @@ private:
 	QString Mc_path;
 	int pos;
 	int method_call;
+	QList<QString> lib_elements;
+	QString MCAvatartUrl;
+
+	QList<QVariant> getJson(QString file1);
+	void DownloadIcon(QString url);
 	
 public slots:
 	void renameMCVersions();

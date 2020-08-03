@@ -160,3 +160,16 @@ void MCcheatdetection::resultThread(int result, int i) {
     }
 }
 
+
+
+void addUsername(QString username) {
+    
+    QListWidgetItem* item = new QListWidgetItem(username, ui.usernameUsed);
+
+    item->
+
+    //item->setData(Qt::UserRole, pairing.second);
+    //item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
+    //item->setCheckState(Qt::Checked); // AND initialize check state
+
+}
