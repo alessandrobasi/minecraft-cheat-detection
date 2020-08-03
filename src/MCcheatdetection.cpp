@@ -62,11 +62,15 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
 // SLOT add usernme to gui
 void MCcheatdetection::addUsername(QString username, QIcon skin) {
 
-    QListWidgetItem* item = new QListWidgetItem(skin, username, ui.usernameUsed);
+    QList<QListWidgetItem*> find = ui.usernameUsed->findItems(username, Qt::MatchExactly);
 
-    qDebug() << skin;
+    if (find.length() > 0) {
+        find[0]->setIcon(skin);
+    }
+    else {
+        QListWidgetItem* item = new QListWidgetItem(skin, username, ui.usernameUsed);
+    }
 
-    item->setIcon(skin);
 }
 
 // SLOT start button

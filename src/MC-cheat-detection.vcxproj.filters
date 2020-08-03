@@ -10,6 +10,9 @@
     <ClCompile Include="DetectionAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DownloadSkinIconThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MCcheatdetection.qrc" />
@@ -34,6 +37,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="DetectionAction.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DownloadSkinIconThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

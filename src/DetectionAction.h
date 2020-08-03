@@ -25,10 +25,8 @@ private:
 	int pos;
 	int method_call;
 	QList<QString> lib_elements;
-	QString MCAvatartUrl;
 
 	QList<QVariant> getJson(QString file1);
-	QPixmap DownloadIcon(QString url);
 	
 public slots:
 	void renameMCVersions();

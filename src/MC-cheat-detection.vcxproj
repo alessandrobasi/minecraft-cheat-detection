@@ -100,11 +100,15 @@
     <QtUic Include="MCcheatdetection.ui" />
     <QtMoc Include="MCcheatdetection.h" />
     <ClCompile Include="DetectionAction.cpp" />
+    <ClCompile Include="DownloadSkinIconThread.cpp" />
     <ClCompile Include="MCcheatdetection.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="DetectionAction.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="DownloadSkinIconThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

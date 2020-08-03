@@ -1,14 +1,11 @@
 #pragma once
 #include "DetectionAction.h"
+#include "DownloadSkinIconThread.h"
 #include <QJsonParseError>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QNetworkRequest>
-#include <QEventLoop>
+
 
 DetectionAction::DetectionAction(int uniqueID, int pos) {
-
-    DetectionAction::MCAvatartUrl = "https://cravatar.eu/helmavatar/";
+    
     DetectionAction::pos = pos;
     DetectionAction::method_call = uniqueID;
 
@@ -46,28 +43,6 @@ QList<QVariant> DetectionAction::getJson(QString file1) {
         qDebug() << jsonError.errorString();
     }
     return flowerJson.toVariant().toList();
-}
-
-QPixmap DetectionAction::DownloadIcon(QString url) {
-    
-    QNetworkAccessManager* netW = new QNetworkAccessManager();
-
-    QNetworkReply* reply = netW->get(QNetworkRequest(QUrl(url)));
-    QEventLoop loop;
-
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    
-    loop.exec();
-
-
-    QByteArray imgData = reply->readAll();
-    QPixmap pixmap;
-    pixmap.loadFromData(imgData);
-
-    delete reply;
-    delete netW;
-
-    return pixmap;
 }
 
 
@@ -173,10 +148,14 @@ void DetectionAction::launcherProfiles() {
         // }
         qDebug() << "Found:" << User["name"].toString();
 
-        QIcon skinIcon = QIcon(DownloadIcon(DetectionAction::MCAvatartUrl + User["name"].toString()) );
+        emit sendUsername(User["name"].toString(), QIcon());
+
+        DownloadSkinIconThread* thread = new DownloadSkinIconThread(User["name"].toString());
         
+        QObject::connect(thread, &DownloadSkinIconThread::endWork, this, &DetectionAction::sendUsername);
         
-        emit sendUsername(User["name"].toString(), skinIcon);
+        thread->start();
+        
     }
 
     usernamesPath.clear();
