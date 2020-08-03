@@ -25,8 +25,7 @@ private:
 private slots:
     void resultThread(int result, int i);
     void BeginCheck();
+    void addUsername(QString username, QIcon skin);
 
-signals:
-    void addUsername(QString username);
     
 };

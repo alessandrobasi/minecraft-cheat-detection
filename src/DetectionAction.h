@@ -7,6 +7,8 @@
 #include <Lmcons.h>
 #include <QDir>
 #include <QDebug>
+#include <QPixmap>
+#include <QIcon>
 
 class DetectionAction : public QThread {
 
@@ -26,7 +28,7 @@ private:
 	QString MCAvatartUrl;
 
 	QList<QVariant> getJson(QString file1);
-	void DownloadIcon(QString url);
+	QPixmap DownloadIcon(QString url);
 	
 public slots:
 	void renameMCVersions();
@@ -36,4 +38,5 @@ public slots:
 
 signals:
 	void resultValue(int result, int pos);
+	void sendUsername(QString username, QIcon skin);
 };

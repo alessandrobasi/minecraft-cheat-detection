@@ -59,6 +59,16 @@ MCcheatdetection::MCcheatdetection(QWidget *parent):QMainWindow(parent) {
 // function to change main widget to an other
 //void AppControlliMC::ChangeScreen(wchar_t* uiFilename, void (*f)()) {/* TODO: ??? */}
 
+// SLOT add usernme to gui
+void MCcheatdetection::addUsername(QString username, QIcon skin) {
+
+    QListWidgetItem* item = new QListWidgetItem(skin, username, ui.usernameUsed);
+
+    qDebug() << skin;
+
+    item->setIcon(skin);
+}
+
 // SLOT start button
 void MCcheatdetection::BeginCheck() {
 
@@ -82,6 +92,10 @@ void MCcheatdetection::BeginCheck() {
     // start all
     qDebug("start Thread");
     for each (DetectionAction* thread in MCcheatdetection::ThreadList) {
+        
+        connect(thread, &DetectionAction::sendUsername, 
+            this, &MCcheatdetection::addUsername);
+        
         connect(thread, &DetectionAction::resultValue,
             this, &MCcheatdetection::resultThread
         );
@@ -96,7 +110,8 @@ void MCcheatdetection::BeginCheck() {
 
 }
 
-// Start a thread
+
+// store thread
 void MCcheatdetection::runAsThread(QString nome, QVariant itemPos) {
     //qDebug() << itemPos.type();
     qDebug() << "id:" << itemPos.toInt() << "added to ThreadList";
@@ -160,16 +175,3 @@ void MCcheatdetection::resultThread(int result, int i) {
     }
 }
 
-
-
-void addUsername(QString username) {
-    
-    QListWidgetItem* item = new QListWidgetItem(username, ui.usernameUsed);
-
-    item->
-
-    //item->setData(Qt::UserRole, pairing.second);
-    //item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
-    //item->setCheckState(Qt::Checked); // AND initialize check state
-
-}

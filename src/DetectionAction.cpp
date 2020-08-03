@@ -2,7 +2,9 @@
 #include "DetectionAction.h"
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
-#include "MCcheatdetection.h"
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QEventLoop>
 
 DetectionAction::DetectionAction(int uniqueID, int pos) {
 
@@ -46,14 +48,28 @@ QList<QVariant> DetectionAction::getJson(QString file1) {
     return flowerJson.toVariant().toList();
 }
 
-void DownloadIcon(QString url) {
-    //QNetworkAccessManager* netW = new QNetworkAccessManager();
+QPixmap DetectionAction::DownloadIcon(QString url) {
+    
+    QNetworkAccessManager* netW = new QNetworkAccessManager();
 
-    //QNetworkReply* reply = netW->get(QNetworkRequest(QUrl(url)));
-    //connect(reply, SIGNAL(finished()), MCcheatdetection, SLOT(addUsername()));
-    //connect(netW, SIGNAL(finished()), MCcheatdetection, SLOT(addUsername()));
+    QNetworkReply* reply = netW->get(QNetworkRequest(QUrl(url)));
+    QEventLoop loop;
 
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    
+    loop.exec();
+
+
+    QByteArray imgData = reply->readAll();
+    QPixmap pixmap;
+    pixmap.loadFromData(imgData);
+
+    delete reply;
+    delete netW;
+
+    return pixmap;
 }
+
 
 /*
    -1 : Bad
@@ -157,8 +173,10 @@ void DetectionAction::launcherProfiles() {
         // }
         qDebug() << "Found:" << User["name"].toString();
 
-        //DownloadIcon(DetectionAction::MCAvatartUrl + User["name"].toString());
-
+        QIcon skinIcon = QIcon(DownloadIcon(DetectionAction::MCAvatartUrl + User["name"].toString()) );
+        
+        
+        emit sendUsername(User["name"].toString(), skinIcon);
     }
 
     usernamesPath.clear();
