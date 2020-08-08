@@ -26,7 +26,7 @@ private:
 	int method_call;
 	QList<QString> lib_elements;
 
-	QList<QVariant> getJson(QString file1);
+	QVariant getJson(QString file1);
 	
 public slots:
 	void renameMCVersions();

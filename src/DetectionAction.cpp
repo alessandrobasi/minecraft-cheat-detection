@@ -30,7 +30,7 @@ QString DetectionAction::getUsername() {
     return QString::fromWCharArray(userbuf);
 }
 
-QList<QVariant> DetectionAction::getJson(QString file1) {
+QVariant DetectionAction::getJson(QString file1) {
     QJsonParseError jsonError;
     QFile file;
     QJsonDocument flowerJson;
@@ -42,7 +42,7 @@ QList<QVariant> DetectionAction::getJson(QString file1) {
     if (jsonError.error != QJsonParseError::NoError) {
         qDebug() << jsonError.errorString();
     }
-    return flowerJson.toVariant().toList();
+    return flowerJson.toVariant();
 }
 
 
@@ -130,13 +130,15 @@ void DetectionAction::launcherProfiles() {
     QString launcherProfilesPath = Mc_path + "launcher_profiles.json";
     int result = 0;
 
-
+    QMap<QString, QVariant> profiles = DetectionAction::getJson(launcherProfilesPath).toMap();
     
-    QList<QVariant> list = DetectionAction::getJson(usernamesPath);
+
+    // show username used
+    QList<QVariant> users = DetectionAction::getJson(usernamesPath).toList();
     // len list = number of user used
     // istanze list[0] list[1] ... 
 
-    for each (QVariant _variant in list) {
+    for each (QVariant _variant in users) {
         QMap<QString, QVariant> User = _variant.toMap();
         if (User.size() != 3) {
             qDebug() << User["name"].toString() << "Has more/less data in his json";
